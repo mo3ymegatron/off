@@ -1,0 +1,327 @@
+- **510.22c99afc6481610f6781.js**  
+  Contains the application’s emoji data set, embedded as a large JSON array parsed from a string. It defines emoji categories (people, nature, foods, activity, places, objects, symbols, flags) and for each emoji a Unicode code point string and an array of short names. Used to populate emoji pickers and search.
+
+- **2394.6b3d178281e9a88e0f71.js**  
+  Handles WebRTC‑based voice and video calling. Implements the core logic for `GroupCall`, `PhoneCall`, `ActiveCallHeader` and `RatePhoneCallModal`. Includes SDP offer/answer generation and parsing, media stream acquisition (user media and display capture), connection state management, participant audio levels, mute/unmute, screen sharing, and signaling data encoding/decoding. Also contains a small Uint16Array of emoji codepoints used for call‑related interactions. Exports several connected‑component wrappers (`GroupCall`, `PhoneCall`, etc.) using React‑Redux bindings.
+
+- **2466.54e0ba60e950438872b5.js**  
+  A large chunk of UI components for the chat application. Notable exports:  
+  - `GroupCallTopPane` – banner for active voice chats.  
+  - `Tx2CpCmpZZrHnCMUksg2` – animated text that flips characters when content changes.  
+  - `Audio` – audio player with waveform visualisation, playback controls, and download/progress indicators.  
+  - `Avatar` – user/chat photo with story‑ring support, including canvas‑based story circles.  
+  - `ChatExtra` – displays user or channel extra information (username, phone, bio, location, etc.).  
+  - `ChatOrUserPicker` – a selector dialog for chats and users, used for forwarding and sharing.  
+  - `Composer` – the message input area with text formatting, emoji picker, sticker/GIF selection, file attachment, polls, and scheduled messages.  
+  - `File` – file attachment preview with download/upload progress.  
+  - `InputBox` – rich‑text message input (contentEditable).  
+  - `MessageList` – virtualised message list with grouping, replies, media, and reactions.  
+  - `MediaViewer` – photo/video viewer with pinch‑to‑zoom and shared media navigation.  
+  - `ProfilePhoto` – profile photo display and change UI.  
+  - `Reaction` – animated and static message reactions.  
+  - `StickerSetModal` – sticker pack preview and installation.  
+  - `SponsoredMessage` – advertisement message display.  
+  - `TopicList` – forum topic list and management.  
+
+  Most components are connected to the global state (Redux) and use the app’s custom hooks for media loading, context menus, and animations.
+
+- **2771.9326c56319b4ba95775a.js**  
+  Contains Redux action creators and thunks for voice/group calls and chat operations. Key actions:  
+  - `toggleGroupCallPanel`, `subscribeToGroupCallUpdates`, `createGroupCall`, `requestMasterAndJoinGroupCall`, `joinGroupCall`, `leaveGroupCall`, `toggleGroupCallMute/Presentation/Video`.  
+  - `playGroupCallSound`, `loadMoreGroupCallParticipants`.  
+  - `connectToActiveGroupCall`, `connectToActivePhoneCall`.  
+  - For phone calls: `requestCall`, `acceptCall`, `hangUp`, `sendSignalingData`, DH key agreement helpers.  
+  - Chat actions: `openChat`, `openThread`, `loadFullChat`, `loadTopChats`, `updateChat...`, `createChannel/Group`, `joinChannel`, `deleteChatUser`, etc.  
+
+  Also includes helper functions for session handling (`sN()`, `Hc()`) and local message counter management.
+
+- **3912.accd4016e7f0acaa84e7.js**  
+  The core Telegram/Soroush+ protocol library (an adaptation of GramJS). It contains:  
+  - **MTProto transport**: WebSocket and HTTP long‑polling support (`Connection` classes).  
+  - **Message encryption/decryption**: AES‑IGE, CTR modes, message padding, and key fingerprint verification.  
+  - **TL schema**: A full TL (Type Language) parser and code generator for the Telegram API schema. All TL types and functions are parsed and made available as classes (e.g., `User`, `Chat`, `Message`, all API requests).  
+  - **Session and authentication**: `AuthKey` generation, DH key exchange, password SRP, 2FA, and session storage.  
+  - **Network layer**: Handles DC selection, reconnection, request retry, and flood‑wait.  
+  - **File operations**: Upload and download of files with progress, chunked transfer, and caching (via Cache API).  
+  - **Local database**: In‑memory state mirroring the server, with updates applied in real‑time.  
+  - **Update manager**: Orders and applies updates from the server, maintaining a consistent state.  
+  - **API methods**: For all operations (messages, chats, users, groups, calls, payments, etc.) exposed as `invoke` calls.  
+
+  This file is the backbone of all data communication in the app.
+
+- **4123.1e407bbf054f4ff4f02c.js**  
+  A collection of UI components and utilities, including:  
+  - `Avatar` (with story‑circle canvas rendering).  
+  - `StoryCircle` – a canvas‑based animated circle that indicates unread stories, drawn with gradient and segments.  
+  - `FakeIcon` / `VerifiedIcon` – small badges for scam/verified accounts.  
+  - `PremiumIcon` – the Soroush+ Pro icon.  
+  - `TextFormatter` – a popover to apply bold, italic, strike‑through, link, etc. to selected text in the composer.  
+  - `Sticker` – renders static/animated stickers.  
+  - `Video` – video player with round or regular shape, integrated with the cache.  
+  - `EditableMessageInput` – a contentEditable div replacement for the message input, handling emoji, mentions, and custom emoji rendering.  
+  - `SymbolMenu` – the emoji/sticker/GIF bottom sheet.  
+  - Also includes `TabList`, `Checkbox`, `Poll`, `CustomEmojiTooltip`, and many other small presentational components.
+
+- **4765.6f6e4ae1b5568383b7b5.js**  
+  A library of generic, reusable UI components:  
+  - `AvatarEditable` – an avatar uploader with crop modal.  
+  - `CountBadge` (like unread count).  
+  - `Checkbox`, `RadioGroup`, `Radio`.  
+  - `CropModal` – image cropping using Cropper.js.  
+  - `Draggable` – a wrapper that enables drag‑and‑drop reordering.  
+  - `FloatingActionButton`.  
+  - `InfiniteScroll` / `ListItem` / `ShowMoreButton` – for long lists.  
+  - `Modal` / `ConfirmDialog`.  
+  - `ProgressSpinner`, `RangeSlider`, `SearchInput`, `Switcher`, `Tabs`, `TextArea`, `TimedPlaceholder`, `Skeleton`, etc.
+
+- **5193.9d28b182e86afad176c5.js**  
+  A language pack JSON object. It provides translations for the entire application (mostly Farsi, judging by the strings). Keys are such as `"Search"`, `"SavedMessages"`, `"NewMessageTitle"`, `"Stickers"`, etc. It supports pluralisation via `oneValue`/`otherValue` objects. This file is imported dynamically when the language changes.
+
+- **5787.c4d96c560a495e106ba1.js**  
+  Low‑level utilities:  
+  - **AES** implementation (encrypt/decrypt) for the web, supporting ECB and IGE modes.  
+  - A `DataStream` helper for reading/writing binary data.  
+  - An IndexedDB wrapper (`idb-keyval`) used for local key‑value storage (e.g., session data).  
+  - A simple `Semaphore` (mutex) implementation for synchronising asynchronous tasks.
+
+- **5905.6db9e8501da9dd6acdf4.js**  
+  The `mp4box.js` library, used for parsing ISO Base Media File Format (MP4) files. It provides:  
+  - A full ISO box parser (all standard boxes like `ftyp`, `moov`, `trak`, `mdat`, etc.).  
+  - Sample table extraction and progressive download support.  
+  - Fragmented MP4 (fMP4) handling for streaming (DASH/HLS).  
+  - Track and sample information retrieval (codec, duration, size).  
+  - Ability to generate initialization segments and media fragments.  
+  This is used to process video messages for playback.
+
+- **6708.2f35d083870795d04836.js**  
+  Implements `RLottie`, the custom Lottie (TGS) renderer for the app. It:  
+  - Spawns multiple web workers (`rlottie:init`) to decode and render animation frames on a shared OffscreenCanvas.  
+  - Supports playback control: play, pause, loop, speed, segment playback.  
+  - Renders frames on a per‑view basis, with caching of recent frames and automatic cleanup.  
+  - Colour filtering for text‑color custom emojis.  
+  - Handles both standalone canvases and shared canvases (for inline emoji in messages).  
+
+- **7768.3a942d6435a8e6430b70.js**  
+  The main application bundle (the entry point). It contains:  
+  - High‑level Redux actions for every feature: messaging, stickers, gifs, payments, contacts, settings, chat management, calls, stories, etc.  
+  - The top‑level React components that compose the entire UI:  
+    - `LeftColumn`: chat folders, search, archived chats, settings/profile navigation, story ribbon.  
+    - `MiddleColumn`: message list (`MessageList`), pinned messages, audio player, message composer, various modals.  
+    - `RightColumn`: profile, shared media, member list, management screens, statistics, sticker/gif search.  
+    - `MediaViewer`, `StoryViewer`, `AudioPlayer`, `PhoneCall`, `GroupCall`, `ConferenceCallViewer`, etc.  
+  - Hooks and utilities for theme, background, window resize, keyboard, and electron integration.  
+  - Passcode lock screen logic.  
+  - Service worker notifications and unread badge updates.  
+  - The main `Main` component that orchestrates all columns and full‑screen modals.
+
+- **7784.5538f9d294702c6e8026.js**  
+  The `pako` library (zlib port). It provides:  
+  - Raw Inflate (`Inflate` class) for decompressing zlib/deflate data.  
+  - Wrappers `inflate`, `inflateRaw`, and `ungzip` for convenience.  
+
+Here’s a detailed technical breakdown of each file.
+
+---
+
+## 1. `7792.508cb7f54b6930ddb78b.js`
+**Role:** Main application chunk – combines multiple libraries and core runtime.
+
+### Key contents and purpose
+- **Splide carousel** (`Splide` class): A full-featured slider/carousel library used for media galleries, story viewers, and other swipeable UI segments in the app. The code defines `Splide` and its sub‑components (track, list, slides, arrows, pagination, autoplay, drag, keyboard, etc.).
+- **HLS.js** (`hls.js`): A JavaScript HLS (HTTP Live Streaming) client, handling manifest parsing, fragment loading, transmuxing (TS/fMP4 to web‑friendly media), and adaptive bitrate switching. The entire library is embedded to enable playback of HLS streams inside the web app (e.g., live streams).
+- **Protobuf/gRPC‑like code** (`bufbuild/protobuf`): A custom Protocol Buffers implementation used for serialising/deserialising messages, likely for LiveKit signalling or other internal RPC.
+- **LiveKit SDK** (part of the LiveKit client): Includes room connection, RTC peer management, tracks, data channels, and E2EE (end‑to‑end encryption) helpers. The code contains definitions for `Room`, `Participant`, `Track`, and related signaling messages.
+- **Worker helper** (`worker‑connector`): Functions to spawn and communicate with Web Workers via `postMessage`, used for offloading heavy tasks (lottie rendering, video processing).
+- **Utility functions**: Base64 encoding/decoding, logging, event emitter (`EventEmitter`), throttle/debounce, and a `Buffer` shim.
+- **Media preview logic**: Code for generating video thumbnails/previews using WebCodecs (`VideoDecoder`) and fetching progressive video parts, likely used inside workers.
+
+**Summary:** This is the core runtime bundle that provides the media carousel, adaptive streaming, real‑time communication, serialization primitives, and worker orchestration. It underpins the majority of the app’s media and live‑calling features.
+
+---
+
+## 2. `8074.1e8e6f62f90b8ae5db05.js`
+**Role:** Web Worker for rendering Lottie animations and generating video previews.
+
+### Key contents and purpose
+- **Lottie rendering** (`rlottie:init`, `rlottie:renderFrames`, etc.): Interfaces with the `rlottie‑wasm` module (loaded via Emscripten). It initialises a renderer, loads JSON animation data, and renders individual frames onto an `ImageData` buffer, which is then sent back to the main thread as `ImageBitmap`s.
+- **Video preview** (`video‑preview:init`): Uses the `VideoDecoder` API from WebCodecs to decode video chunks (fetched progressively) and generate `VideoBitmap` frames for thumbnail previews or scrubbing. It relies on the `MP4Box.js` (or similar) demuxer to parse MP4 streams and extract encoded samples.
+- **Inter‑worker communication**: Listens for `message` events and dispatches to appropriate handlers based on the `type` field. Uses a promise‑based `requestPart` mechanism to fetch byte ranges of media files from the main thread (which in turn uses the service worker).
+- **WASM integration**: Loads `rlottie‑wasm` asynchronously, caches rendering instances, and manages memory (resize, destroy).
+
+**Summary:** This worker offloads CPU‑intensive animation and video processing tasks from the main UI thread, ensuring smooth app performance. It directly uses WebCodecs and the rlottie WASM decoder.
+
+---
+
+## 3. `8287.a53870db58ef647b5a02.js`
+**Role:** Base64 and Buffer polyfill (Node.js `Buffer` implementation for browsers).
+
+### Key contents and purpose
+- **Fast base64 encode/decode** (`ByteLength`, `toByteArray`, `fromByteArray`): Optimized algorithms for converting between base64 strings and `Uint8Array` using lookup tables.
+- **Buffer polyfill** (`Buffer` class): A full port of Node.js `Buffer` to the browser, extending `Uint8Array`. Includes methods like `alloc`, `from`, `toString`, `write*`/`read*` (including BigInt support), `slice`, `copy`, `equals`, and encoding conversions (utf8, hex, base64, etc.).
+- **Error classes**: `ERR_BUFFER_OUT_OF_BOUNDS`, `ERR_INVALID_ARG_TYPE`, etc., to provide meaningful error messages when Buffer API is misused.
+
+**Summary:** This file provides a robust `Buffer` implementation for the browser, enabling code that relies on Node.js‑style buffers (e.g., cryptography, protocol encoding) to run unchanged. It also includes the base64 conversion routines used throughout the app.
+
+---
+
+## 4. `9357.a32d9c853702c7ec70c3.js`
+**Role:** Lightweight Web Worker RPC helper.
+
+### Key contents and purpose
+- **`initWorker` / connector factory**: A function that sets up a two‑way message channel between the main thread and a worker. It listens for messages, handles `init`, `callMethod`, `cancelProgress`, and `unhandledError` events.
+- **Method invocation**: Allows the main thread to call named functions inside the worker and receive responses (including `methodCallback` for asynchronous callbacks).
+- **Progress cancellation**: Supports a `cancelProgress` message to abort long‑running operations.
+- **Helper functions**: `getIsWebPSupported`, `getPlatform`, etc., used for conditional logic.
+
+**Summary:** This file is a generic worker communication utility used by the other workers (`8074.js`, `rlottie‑wasm` loader) to encapsulate the boilerplate of `postMessage` dispatching, error handling, and lifecycle management.
+
+---
+
+## 5. `9451.b109e141ac31d94af5e8.js`
+**Role:** The main user‑interface bundle – contains the vast majority of the Soroush Plus web app’s React components.
+
+### Key contents and purpose
+- **React components**: All major UI components are exported from this chunk, including `MediaViewer`, `StoryViewer`, `ForwardRecipientPicker`, `Settings`, `Management`, `PaymentModal`, `StickerPicker`, `ReactionPicker`, `Dialogs`, and many more (names are evident from the named exports).
+- **State management hooks**: Custom hooks for managing complex state, such as `useHeavyAnimationCheck`, `useSignal`, `useObservable`, and Redux‑like selectors (`useSelector`).
+- **Media handling**: Components for playing video/audio (`VideoPlayer`, `AudioPlayer`), rendering stickers (`StickerButton`), displaying emoji, and handling file attachments.
+- **Chat logic**: `MessageList`, `Composer`, `MessageContextMenu`, `SeenByModal`, `ReactorListModal`, etc.
+- **Animations and transitions**: Uses `Splide` and custom CSS transitions (slide, fade) for mobile and desktop views. Includes ghost animations for opening/closing media.
+- **LiveKit integration**: Components like `ConferenceCallViewer`, `PreJoin`, controls for mute/camera/screen share, and a picture‑in‑picture iframe.
+- **Utilities**: Formatting (`intl‑numbers`, `datetime`), copy to clipboard, file download helpers, drag‑and‑drop area, and more.
+
+**Summary:** This is the monolithic UI package that renders the entire messaging application. It orchestrates chat views, media galleries, settings, payments, and video calls, using the libraries and workers bundled in the other files.
+
+---
+
+## 6. `9867.2db223a147659a62ca7c.js`
+**Role:** Service Worker – responsible for offline caching, push notifications, and progressive media fetching.
+
+### Key contents and purpose
+- **Install/Activate**: Skips waiting and claims all clients immediately.
+- **Progressive media handling**: The `fetch` listener intercepts requests to `/progressive/`. It parses the `Range` header, fetches the requested bytes via `part‑request` messaging to the main thread, caches parts in dedicated `sp-media-progressive` cache, and responds with `206 Partial Content` including appropriate CORS headers.
+- **Download facilitation**: For `/download/` requests, it fetches the file in chunks using the same part‑request mechanism, creates a `ReadableStream` that pipelines the chunks, and returns a response that triggers a download in the browser.
+- **Push notifications**: Listens for `push` events, decodes the JSON payload, and shows a `Notification` via `registration.showNotification`. It handles `mute` flag and prevents duplicate notifications by tracking message IDs.
+- **Notification click**: On click, it focuses or opens a client window and posts a `focusMessage` message to navigate to the appropriate chat.
+- **BroadcastChannel**: Uses `BroadcastChannel` to detect when a newer version of the app is loaded and triggers a reload.
+- **Caching**: For script, stylesheet, and image requests matching a versioned‑pattern, it responds from a cache `sp-assets` with a network‑fallback strategy.
+
+**Summary:** This is the advanced service worker that enables media streaming via progressive downloading, manages back‑end communication for file downloads, handles push notification display and interaction, and implements version‑aware caching for app assets.
+
+---
+
+## 7. `compatTest.js`
+**Role:** Browser compatibility check executed on page load.
+
+### Key contents and purpose
+- Checks for required modern web APIs: `Promise`, `WebSocket`, `crypto.subtle`, `Object.fromEntries`, `ResizeObserver`, `CSS.supports`, various `Intl` APIs (`DisplayNames`, `PluralRules`, `NumberFormat`), `navigator.locks`, `BigInt`, and `BroadcastChannel`.
+- If any of these are missing, it replaces the page content with an “unsupported browser” message, unless the user has previously clicked “I'm Feeling Lucky” (which stores a flag in `localStorage`).
+- The test sets `window.isCompatTestPassed = true` on success so other scripts can skip re‑checking.
+
+**Summary:** A small, standalone script that gates the entire application on necessary browser capabilities, ensuring a graceful fallback for outdated browsers.
+
+---
+
+## 8. `rlottie-wasm.b8cd14b929a7127811bd.js`
+**Role:** Emscripten‑generated glue code for the rlottie WebAssembly module.
+
+### Key contents and purpose
+- **WebAssembly instantiation**: Sets up the WASM memory, table, and imports necessary for the `rlottie‑wasm.wasm` binary. Handles both synchronous (via `getBinary`) and asynchronous (fetch + `WebAssembly.instantiate`) loading.
+- **Exported functions**: Provides the C‑side functions called by the worker:
+  - `lottie_init` – initialises a new Lottie renderer.
+  - `lottie_load_from_data` – loads animation JSON into a renderer.
+  - `lottie_resize` – resizes the render buffer.
+  - `lottie_buffer` – returns the pointer to the pixel buffer.
+  - `lottie_render` – renders a specific frame.
+  - `lottie_destroy` – cleans up.
+- **Emscripten runtime**: Includes the usual Emscripten support: `malloc`/`free`, file system simulation (MEMFS), standard I/O streams, exception handling (`setThrew`, `_longjmp`), and `invoke_*` wrappers for calling function pointers from WebAssembly.
+- **Memory management**: Allocates a large initial memory (16 MB) and provides `stackAlloc`, `dynamicAlloc`, and string conversion helpers (`UTF8ToString`, `stringToUTF8`) for passing data between JS and C.
+
+**Summary:** This file is the machinery that loads and interfaces with the compiled rlottie library, enabling high‑performance frame‑by‑frame rendering of Lottie/TGS animations entirely in a Web Worker via WebAssembly.
+
+## File 1: `main.8fe6c9dd0231c41d7103.js`
+
+### Overview
+This is a large, minified JavaScript bundle (with a source map reference) that serves as the client‑side application for **Soroush+** (a messaging platform, likely an Iranian Telegram alternative). It is a **Webpack** output chunk that contains the entire single‑page application: authentication flows, real‑time messaging, media handling, stickers, animations, and various UI components.
+
+### Key Components
+
+#### 1. **Webpack Bootstrap and Chunking**
+- The file begins with the standard Webpack runtime (`()=>{...}`) that implements module caching, lazy chunk loading (`o.e`), and public path configuration.
+- The app uses code‑splitting; the main chunk loads additional bundles on demand (e.g., `BundleAuth`, `BundleMain`, `BundleCalls`, `BundleExtra`).
+
+#### 2. **MTProto Client and Telegram API**
+- A full implementation of the **MTProto 2.0** protocol for communicating with Telegram/Soroush servers.
+- Includes cryptographic operations:
+  - AES‑IGE encryption/decryption (module `7692`)
+  - Diffie‑Hellman key exchange (`73790`, `81570`, `73906`)
+  - RSA signatures (`73790`)
+  - Factorization (Pollard's Rho, `81570`) for PQ‑inner data
+- Network layer:
+  - WebSocket (`90364`) and HTTP long‑polling (`93671`) transport
+  - Packet obfuscation with `efefefef` tag (`23103`)
+  - Connection classes (`65540`, `42867`, `21806`)
+
+#### 3. **High‑Level API & State Management**
+- A custom **global state container** (`37932`) similar to Redux, with actions, a global store, and `withGlobal` HOC.
+- The **Telegram Library** (`46864`) exposes methods such as:
+  - `connect()`, `send()`, `invoke()` for sending API requests
+  - File upload/download (`38751`, `32538`)
+  - Authentication (phone number, code, 2FA password) (`53386`)
+  - Updates handling (WebSocket push, difference polling)
+
+#### 4. **UI Layer (`teact`)**
+- The app uses a **custom React‑like library** called `teact` (modules `84051`, `51401`).
+- Implements a virtual DOM, components, hooks (`useState`, `useEffect`, `useMemo`, etc.), and lifecycle.
+- UI components are built with this library (e.g., `Button` (`64493`), `Input` (`40664`), `Menu` (`9168`), `Transition` (`41036`), `AnimatedSticker` (`18104`), `CustomEmoji` (`15640`), etc.).
+
+#### 5. **Service Worker and Push Notifications**
+- Registers a service worker (`navigator.serviceWorker.register`) for offline support and web push notifications.
+- Handles push notification display, clicking, and caching of assets (`74824`).
+- Uses the Cache API for persistent media and progressive file downloads.
+
+#### 6. **Local Database and Caching**
+- Utilizes **IndexedDB** (`77783`) for storing messages, chats, stickers, and session data.
+- Implements a localStorage‑backed cache (`3066`) and a shared worker for cross‑tab state synchronization (`55232`).
+
+#### 7. **Localization and Languages**
+- Multi‑language support with dynamic language pack loading (`65934`).
+- Date formatting (`57646`) for the Persian (Solar Hijri) calendar.
+
+#### 8. **Miscellaneous Utilities**
+- Image loading and manipulation (`87679`, `24909`)
+- Emoji processing (`12426`, `98221`) and custom emoji rendering
+- URL detection and safe‑link handling (`56440`)
+- File type detection and size formatting (`91525`)
+- Payment flow handling (`64852`)
+
+### Summary
+`main.8fe6c9dd0231c41d7103.js` is the complete web application bundle for the Soroush+ messenger. It embeds a full MTProto client, a rich UI with custom rendering, a service worker, and all necessary utilities for a secure, feature‑rich messaging experience entirely in the browser.
+
+---
+
+## File 2: `rlottie-wasm.txt`
+
+### Overview
+Despite the `.txt` extension, this file contains the **binary WebAssembly (Wasm) module** of the rlottie library. The header `\0asm` (ASM magic number `0x6d736100`) confirms it is a valid `.wasm` file. rlottie is an open‑source C++ library that renders Lottie (Bodymovin) JSON animations. This compiled version is intended for use in web browsers via WebAssembly.
+
+### Content and Purpose
+- **Wasm Binary Structure**: The file starts with a Wasm binary module (`0x00 0x61 0x73 0x6d`), containing compiled functions, memory definitions, and export/import tables.
+- **Exports**: The module exports functions that presumably allow:
+  - Creating and destroying animation instances
+  - Loading animation data (JSON)
+  - Rendering frames at a given timestamp
+  - Controlling playback (loop, speed, etc.)
+- **Internal Dependencies**: It includes linked libraries such as:
+  - **Freetype** (`v_ft_stroker.cpp`) for font rendering
+  - **libpng** (`stb_image.h`) for PNG decoding
+  - **Zlib** for decompression
+  - A custom memory allocator and vector implementation
+  - RapidJSON for parsing Lottie JSON data
+- **Technical Details**: The module uses Emscripten’s memory model. It exports a memory buffer and a table of functions. The error strings embedded in the binary (e.g., `"allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size"`) reveal it was compiled with assertions and diagnostic messages.
+
+### Usage in the Application
+In `main.js`, the `rlottie-wasm.txt` file is requested as part of module `88458`, which is the `AnimatedSticker` and `tgs` (Telegram animated sticker) loader. The code likely fetches this Wasm module, compiles and instantiates it, then uses it to render **.tgs** (Lottie‑based) stickers in the chat interface.
+
+### Summary
+`rlottie-wasm.txt` is a compiled WebAssembly module of the rlottie library, providing efficient, hardware‑accelerated rendering of vector animations (Lottie format) directly in the browser. It is the engine behind Telegram‑style animated stickers in the Soroush+ web client.
+  - Used throughout the app to decompress data from the Telegram protocol (e.g., gzip‑packed messages, stickers).
